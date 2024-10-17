@@ -4,10 +4,11 @@ import { Todo } from '../../models/todo.model';
 @Component({
   selector: 'app-todo',
   templateUrl: './todo.component.html',
-  styleUrls: ['./todo.component.css']
+  styleUrls: ['./todo.component.css'],
+  standalone: true
 })
 export class TodoComponent {
-  @Input() todo!: Todo; //fix later
+  @Input() todo!: Todo;
   @Output() toggle = new EventEmitter<number>();
   @Output() delete = new EventEmitter<number>();
 
