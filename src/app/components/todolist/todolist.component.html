@@ -5,9 +5,9 @@
     </mat-card-header>
     <mat-card-content>    
       <mat-list>
-        @if (todoList.todos.length !== 0)
+        @if (todoList().todos.length !== 0)
         {
-          @for (todo of todoList.todos; track todo.id)
+          @for (todo of todoList().todos; track todo.id)
           {
             <mat-list-item>
               <app-todo [todo]="todo" (toggle)="toggleTodoCompletion(newTodoDate, $event)" (delete)="deleteTodo(newTodoDate, $event)"></app-todo>

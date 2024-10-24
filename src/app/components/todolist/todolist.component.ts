@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, signal, WritableSignal, EventEmitter, Output } from '@angular/core';
 import { TodoService } from '../../services/todo.service';
 import { TodoList } from '../../models/todolist.model'; 
 import { TodoComponent } from '../todo/todo.component';
@@ -24,19 +24,17 @@ import { DatePipe } from '@angular/common';
     DatePipe
   ]
 })
-export class TodoListComponent {
-  @Input() inputDate: any;
+export class TodoListComponent implements OnInit {
+  @Input() inputDate!: Date;  
   newTodoTitle: string = '';
   newTodoDate: Date = new Date();
-  todoList: TodoList = { date: new Date(), todos: [] };
+  todoList: WritableSignal<TodoList> = signal({ date: new Date(), todos: [] });
 
-  constructor(public todoService: TodoService) {
-    //this.todoList = this.todoService.getTodoListForDate(this.inputDate);
-  }
+  constructor(public todoService: TodoService) { }
 
   ngOnInit() { 
-    this.todoList = this.todoService.getTodoListForDate(this.inputDate);
-} 
+    this.todoList.set(this.todoService.getTodoListForDate(this.inputDate));
+  } 
 
   addTodo() {
     if (this.newTodoTitle.trim()) {

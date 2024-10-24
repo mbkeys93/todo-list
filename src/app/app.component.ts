@@ -27,10 +27,13 @@ import { AddTodoGlobalComponent } from "./components/add-todo-global/add-todo-gl
 export class AppComponent {
   title: string = 'Todo List Application';
   todoListDates: Date[] = [];
-  //test: Date = new Date(); // test date 
 
   constructor(public todoService: TodoService) {
     // convert to a set and back to an array to remove duplicates
-    this.todoListDates = [ ...new Set(this.todoService.getTodoLists().map(list => list.date)) ];
+    this.todoListDates = this.todoService.getTodoListDates();
+  }
+  
+  handleDatesFromTodoList(data: Date) {
+    this.todoListDates.push(data);
   }
 }

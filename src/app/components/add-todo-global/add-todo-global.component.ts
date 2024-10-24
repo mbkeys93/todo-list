@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { TodoService } from '../../services/todo.service';
 import { FormsModule } from '@angular/forms';
@@ -9,12 +9,13 @@ import {provideNativeDateAdapter} from '@angular/material/core';
 @Component({
   selector: 'app-add-todo-global',
   standalone: true,
-  providers: [provideNativeDateAdapter()],
+  providers: [provideNativeDateAdapter(), TodoService],
   imports: [ MatFormFieldModule, FormsModule, MatInputModule, MatDatepickerModule ],
   templateUrl: './add-todo-global.component.html',
   styleUrl: './add-todo-global.component.css'
 })
 export class AddTodoGlobalComponent {
+  @Output() newDateAdded = new EventEmitter<Date>();
   newTodoDate: Date = new Date();
   newTodoTitle: string = '';
 
@@ -26,8 +27,11 @@ export class AddTodoGlobalComponent {
       return;
     }
 
+    if (!this.todoService.getTodoListDates().find(date => date === this.newTodoDate)) {
+      this.newDateAdded.emit(this.newTodoDate);
+    }
+
     this.todoService.addTodoForDate(this.newTodoDate, this.newTodoTitle);
-    this.newTodoDate = new Date(); // Clear the input field
     this.newTodoTitle = ''; // Clear the input field
   }
 }
