@@ -1,1 +1,67 @@
 /* You can add global styles to this file, and also import other style files */
+/* Import Angular Material theme */
+/*@import '~@angular/material/prebuilt-themes/indigo-pink.css';*/
+
+/* General styles */
+body {
+  font-family: Roboto, Arial, sans-serif;
+  background-color: #f5f5f5;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* Container styles */
+.app-container {
+  width: 100%;
+  max-width: 800px;
+  margin: 20px;
+  padding: 20px;
+  background-color: lightgray;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Toolbar styles */
+mat-toolbar {
+  background-color: #3f51b5; /* Primary color */
+  color: white;
+}
+
+/* Form field styles */
+mat-form-field {
+  width: 100%;
+}
+
+/* Button styles */
+button.mat-raised-button {
+  margin-top: 10px;
+}
+
+/* List styles */
+mat-list-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+}
+
+mat-list-item .mat-icon {
+  cursor: pointer;
+}
+
+/* Custom color variables */
+:root {
+  --bright-blue: #007bff;
+  --bright-blue-hover: #0056b3;
+  --bright-blue-active: #004494;
+  --gray-400: #cccccc;
+  --gray-700: #555555;
+  --gray-900: #333333;
+  --orange-red: #ff4500;
+  --orange-red-hover: #cc3700;
+  --orange-red-active: #b32e00;
+}

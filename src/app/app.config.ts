@@ -6,6 +6,7 @@ import { routes } from './app.routes';
 import { provideClientHydration } from '@angular/platform-browser';
 
 import { TodoService } from './services/todo.service';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -13,6 +14,6 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes), 
     provideClientHydration(),
     importProvidersFrom([ BrowserModule ]),
-    { provide: TodoService, useClass: TodoService }
+    { provide: TodoService, useClass: TodoService }, provideAnimationsAsync()
   ]
 };

@@ -1,0 +1,13 @@
+<div class="add-todo-global">
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Todo Date</mat-label>
+      <input matInput [matDatepicker]="picker" [(ngModel)]="newTodoDate">
+      <mat-hint>MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>New Todo</mat-label>
+      <input matInput [(ngModel)]="newTodoTitle" (keydown.enter)="addTodo()">
+    </mat-form-field>
+  </div>

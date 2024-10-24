@@ -1,5 +1,8 @@
 <div class="todo-item">
-    <input type="checkbox" [checked]="todo.completed" (change)="onToggle()">
-    <span [class.completed]="todo.completed">{{ todo.title }}</span>
-    <button (click)="onDelete()">Delete</button>
-  </div>
+  <mat-checkbox [checked]="todo.completed" (change)="onToggle()">
+    <span [class.completed]="todo.completed">{{ todo.description }}</span>
+  </mat-checkbox>
+  <button mat-icon-button color="warn" (click)="onDelete()">
+    <mat-icon>delete</mat-icon>
+  </button>
+</div>
