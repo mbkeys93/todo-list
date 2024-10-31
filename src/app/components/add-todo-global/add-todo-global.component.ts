@@ -27,9 +27,11 @@ export class AddTodoGlobalComponent {
       return;
     }
 
-    if (!this.todoService.getTodoListDates().find(date => date === this.newTodoDate)) {
-      this.newDateAdded.emit(this.newTodoDate);
-    }
+    this.todoService.getTodoListDates().subscribe(dates => { // unsubscribe?
+      if (!dates.find(date => date === this.newTodoDate)) {
+        this.newDateAdded.emit(this.newTodoDate);
+      }
+    });
 
     this.todoService.addTodoForDate(this.newTodoDate, this.newTodoTitle);
     this.newTodoTitle = ''; // Clear the input field

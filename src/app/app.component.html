@@ -21,7 +21,7 @@
     </mat-menu>
   </mat-toolbar>
   <app-add-todo-global (newDateAdded)="handleDatesFromTodoList($event)"></app-add-todo-global>
-  @for (date of todoListDates; track date)
+  @for (date of todoListDates$ | async; track date)
   {
     <app-todo-list [inputDate]=date></app-todo-list>
   }
