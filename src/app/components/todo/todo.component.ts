@@ -5,11 +5,10 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-  selector: 'app-todo',
-  templateUrl: './todo.component.html',
-  styleUrls: ['./todo.component.css'],
-  standalone: true,
-  imports: [ MatButtonModule, MatCheckboxModule, MatIconModule ]
+    selector: 'app-todo',
+    templateUrl: './todo.component.html',
+    styleUrls: ['./todo.component.css'],
+    imports: [MatButtonModule, MatCheckboxModule, MatIconModule]
 })
 export class TodoComponent {
   @Input() todo!: Todo;

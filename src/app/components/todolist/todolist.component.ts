@@ -12,18 +12,18 @@ import { DatePipe, AsyncPipe } from '@angular/common';
 import { Observable, of } from 'rxjs';
 
 @Component({
-  selector: 'app-todo-list',
-  templateUrl: './todolist.component.html',
-  styleUrls: ['./todolist.component.css'],
-  standalone: true,
-  imports: [
-    TodoComponent,
-    FormsModule, 
-    MatButtonModule, 
-    MatInputModule, 
-    MatListModule,
-    MatCardModule,
-    DatePipe  ]
+    selector: 'app-todo-list',
+    templateUrl: './todolist.component.html',
+    styleUrls: ['./todolist.component.css'],
+    imports: [
+        TodoComponent,
+        FormsModule,
+        MatButtonModule,
+        MatInputModule,
+        MatListModule,
+        MatCardModule,
+        DatePipe
+    ]
 })
 export class TodoListComponent implements OnInit {
   todos = input<Todo[]>();

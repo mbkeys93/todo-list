@@ -7,12 +7,11 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import {provideNativeDateAdapter} from '@angular/material/core';
 
 @Component({
-  selector: 'app-add-todo-global',
-  standalone: true,
-  providers: [provideNativeDateAdapter(), TodoService],
-  imports: [ MatFormFieldModule, FormsModule, MatInputModule, MatDatepickerModule ],
-  templateUrl: './add-todo-global.component.html',
-  styleUrl: './add-todo-global.component.css'
+    selector: 'app-add-todo-global',
+    providers: [provideNativeDateAdapter(), TodoService],
+    imports: [MatFormFieldModule, FormsModule, MatInputModule, MatDatepickerModule],
+    templateUrl: './add-todo-global.component.html',
+    styleUrl: './add-todo-global.component.css'
 })
 export class AddTodoGlobalComponent {
   @Output() newDateAdded = new EventEmitter<Date>();
