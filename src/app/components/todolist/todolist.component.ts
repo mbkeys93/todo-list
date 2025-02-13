@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, signal, WritableSignal, EventEmitter, Output } from '@angular/core';
+import { Component, input, OnInit, signal } from '@angular/core';
 import { TodoService } from '../../services/todo.service';
 import { TodoComponent } from '../todo/todo.component';
 import { Todo } from '../../models/todo.model';
@@ -10,7 +10,6 @@ import { MatCardModule } from '@angular/material/card';
 import { DatePipe, AsyncPipe } from '@angular/common';
 
 import { Observable, of } from 'rxjs';
-import {catchError, startWith} from 'rxjs/operators';
 
 @Component({
   selector: 'app-todo-list',
@@ -24,38 +23,23 @@ import {catchError, startWith} from 'rxjs/operators';
     MatInputModule, 
     MatListModule,
     MatCardModule,
-    DatePipe,
-    AsyncPipe
-  ]
+    DatePipe  ]
 })
 export class TodoListComponent implements OnInit {
-  @Input() inputDate!: Date;  
+  todos = input<Todo[]>();
+
   newTodoTitle: string = '';
   newTodoDate: Date = new Date();
-  //todoList = signal({ date: new Date(), todos: [] });
-  todoList$: Observable<Todo[]> = new Observable<Todo[]>();
   errorMessage = signal('');
 
   constructor(public todoService: TodoService) { }
 
   ngOnInit(): void {
-    this.loadTodos();
-  }
-
-  loadTodos(): void {
-    this.errorMessage.set('');
-      this.todoList$ = this.todoService.getTodos().pipe(
-        startWith([]),
-        catchError((err: any) => {
-          this.errorMessage.set(err.message || err.toString());
-          return of([]); // reset message to placeholder
-        })
-      );
+    // Remove loadTodos call
   }
 
   addTodo() {
     if (this.newTodoTitle.trim()) {
-      //this.todoService.addTodoForDate(this.inputDate, this.newTodoTitle);
       this.newTodoTitle = '';
     }
   }

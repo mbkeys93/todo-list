@@ -1,27 +1,27 @@
 <div class="todo-list">
-  <mat-card>
-    <mat-card-header>
-      <mat-card-title>{{ inputDate | date }}</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>    
-      <mat-list>
-        @if ((todoList$ | async)?.length !== 0)
-        {
-          @for (todo of todoList$ | async; track todo.id)
+  @if ((todos())?.length !== 0 && todos() !== undefined)
+  {
+    <mat-card>  
+      <mat-card-header>
+        <mat-card-title>{{ (todos() ?? [])[0].date | date:'mediumDate' }}</mat-card-title>
+      </mat-card-header>      
+      <mat-card-content>    
+        <mat-list>          
+          @for (todo of todos(); track todo.id)
           {
             <mat-list-item>
               <app-todo [todo]="todo" (toggle)="toggleTodoCompletion(newTodoDate, $event)" (delete)="deleteTodo(newTodoDate, $event)"></app-todo>
             </mat-list-item>
-          }
-        }       
-      </mat-list>
-      <div class="add-todo">
-        <mat-form-field appearance="fill" class="full-width">
-          <mat-label>New todo</mat-label>
-          <input matInput [(ngModel)]="newTodoTitle" (keydown.enter)="addTodo()">
-        </mat-form-field>
-        <button mat-raised-button color="primary" (click)="addTodo()">Add</button>
-      </div>  
-    </mat-card-content>
-  </mat-card>
+          }             
+        </mat-list>
+        <div class="add-todo">
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>New todo</mat-label>
+            <input matInput [(ngModel)]="newTodoTitle" (keydown.enter)="addTodo()">
+          </mat-form-field>
+          <button mat-raised-button color="primary" (click)="addTodo()">Add</button>
+        </div>  
+      </mat-card-content>
+    </mat-card>
+  }
 </div>

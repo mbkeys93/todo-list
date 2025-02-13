@@ -8,9 +8,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { AddTodoGlobalComponent } from "./components/add-todo-global/add-todo-global.component";
 import { AsyncPipe } from '@angular/common';
+import { Todo } from './models/todo.model';
 
 import { Observable, of } from 'rxjs';
-import {catchError, startWith} from 'rxjs/operators';
+import { catchError, startWith, map, take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -24,38 +25,53 @@ import {catchError, startWith} from 'rxjs/operators';
     MatMenuModule,
     AddTodoGlobalComponent,
     AsyncPipe
-],
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
 export class AppComponent implements OnInit {
   title: string = 'Todo List Application';
+  todos$: Observable<Todo[]> = new Observable<Todo[]>();
   todoListDates$: Observable<Date[]> = new Observable<Date[]>();
   errorMessage = signal('');
 
   constructor(public todoService: TodoService) {
-    // convert to a set and back to an array to remove duplicates
-    this.todoListDates$ = this.todoService.getTodoListDates();
   }
 
   ngOnInit(): void {
-    this.loadDates();
+    this.loadTodos();
   }
 
-  loadDates(): void {
-    this.errorMessage.set('');
-      this.todoListDates$ = this.todoService.getTodoListDates().pipe(
-        startWith([]),
-        catchError((err: any) => {
-          this.errorMessage.set(err.message || err.toString());
-          return of([]); // reset message to placeholder
-        })
-      );
+  loadTodos(): void {
+    this.todos$ = this.todoService.getTodos().pipe(
+      startWith([]),
+      catchError(err => {
+        this.errorMessage.set(err.message || 'Error loading todos');
+        return of([]);
+      })
+    );
+
+    this.todoListDates$ = this.todos$.pipe(
+      map(todos => [...new Set(
+        todos.map(todo => todo.date.toISOString().split('T')[0])
+      )].map(dateStr => new Date(dateStr)))
+    );
   }
   
   handleDatesFromTodoList(data: Date): void {
-    this.todoListDates$.subscribe(dates => { // unsubscribe?
-      this.todoListDates$ = of([...dates, data]);
+    this.todos$.pipe(take(1)).subscribe(todos => {
+      this.todos$ = of([...todos, { 
+        id: 0, // temporary ID, should be handled by backend
+        date: data,
+        description: '',
+        completed: false
+      }]);
     });
+  }
+
+  filterTodosByDate(date: Date, todos: Todo[]): Todo[] {
+    return todos.filter(todo => 
+      todo.date.toISOString().split('T')[0] === date.toISOString().split('T')[0]
+    );
   }
 }

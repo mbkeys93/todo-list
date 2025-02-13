@@ -1,5 +1,5 @@
-const express = require('express');
-   const mysql = require('mysql');
+   const express = require('express');
+   const mysql = require('mysql2');
    const bodyParser = require('body-parser');
    const cors = require('cors');
 
@@ -27,7 +27,7 @@ const express = require('express');
 
   // Routes
 app.get('/api/todos', (req, res) => {
-  const query = 'SELECT * FROM todos';
+  const query = 'SELECT idtodos id, datetime date, description, completedflag completed FROM todos';
   connection.query(query, (err, results) => {
     if (err) {
       console.error('Error fetching todos:', err);
@@ -38,17 +38,17 @@ app.get('/api/todos', (req, res) => {
   });
 });
 
-app.get('/api/dates', (req, res) => {
-  const query = 'SELECT datetime FROM todos';
-  connection.query(query, (err, results) => {
-    if (err) {
-      console.error('Error fetching dates:', err);
-      res.status(500).send('Error fetching todos');
-      return;
-    }
-    res.json(results);
-  });
-});
+// app.get('/api/dates', (req, res) => {
+//   const query = 'SELECT datetime FROM todos';
+//   connection.query(query, (err, results) => {
+//     if (err) {
+//       console.error('Error fetching dates:', err);
+//       res.status(500).send('Error fetching todos');
+//       return;
+//     }
+//     res.json(results);
+//   });
+// });
 
 app.post('/api/todos', (req, res) => {
   const { date, description } = req.body;
