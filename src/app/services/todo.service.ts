@@ -9,7 +9,7 @@ import { of, throwError } from 'rxjs';
   providedIn: 'root'
 })
 export class TodoService {
-  private apiUrl = 'http://localhost:3000/api/todos';
+  private apiUrl = 'http://localhost:3000/api/todo';
 
   constructor(private http: HttpClient) {}
 

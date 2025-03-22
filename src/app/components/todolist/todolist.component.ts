@@ -1,4 +1,4 @@
-import { Component, input, OnInit, signal } from '@angular/core';
+import { Component, input, output, signal, OnInit } from '@angular/core';
 import { TodoService } from '../../services/todo.service';
 import { TodoComponent } from '../todo/todo.component';
 import { Todo } from '../../models/todo.model';
@@ -7,9 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { MatCardModule } from '@angular/material/card';
-import { DatePipe, AsyncPipe } from '@angular/common';
-
-import { Observable, of } from 'rxjs';
+import { DatePipe } from '@angular/common';
 
 @Component({
     selector: 'app-todo-list',
@@ -27,8 +25,10 @@ import { Observable, of } from 'rxjs';
 })
 export class TodoListComponent implements OnInit {
   todos = input<Todo[]>();
+  todoToggled = output<number>();
+  todoDeleted = output<number>();
 
-  newTodoTitle: string = '';
+  newTodoTitle = signal('');
   newTodoDate: Date = new Date();
   errorMessage = signal('');
 
@@ -39,16 +39,16 @@ export class TodoListComponent implements OnInit {
   }
 
   addTodo() {
-    if (this.newTodoTitle.trim()) {
-      this.newTodoTitle = '';
+    if (this.newTodoTitle().trim()) {
+      this.newTodoTitle.set('');
     }
   }
 
   toggleTodoCompletion(date: Date, id: number) {
-    //this.todoService.toggleTodoCompletion(date, id);
+    this.todoToggled.emit(id);
   }
 
   deleteTodo(date: Date, id: number) {
-    //this.todoService.deleteTodoFromList(date, id);
+    this.todoDeleted.emit(id);
   }
 }

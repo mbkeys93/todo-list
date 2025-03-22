@@ -1,6 +1,6 @@
 <div class="todo-item">
-  <mat-checkbox [checked]="todo.completed" (change)="onToggle()">
-    <span [class.completed]="todo.completed">{{ todo.description }}</span>
+  <mat-checkbox [checked]="todo().completed" (change)="onToggle()">
+    <span [class.completed]="todo().completed">{{ todo().description }}</span>
   </mat-checkbox>
   <button mat-icon-button color="warn" (click)="onDelete()">
     <mat-icon>delete</mat-icon>

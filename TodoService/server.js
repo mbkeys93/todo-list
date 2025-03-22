@@ -26,7 +26,7 @@
    app.use(cors());
 
   // Routes
-app.get('/api/todos', (req, res) => {
+app.get('/api/todo', (req, res) => {
   const query = 'SELECT idtodos id, datetime date, description, completedflag completed FROM todos';
   connection.query(query, (err, results) => {
     if (err) {
@@ -38,19 +38,24 @@ app.get('/api/todos', (req, res) => {
   });
 });
 
-// app.get('/api/dates', (req, res) => {
-//   const query = 'SELECT datetime FROM todos';
-//   connection.query(query, (err, results) => {
-//     if (err) {
-//       console.error('Error fetching dates:', err);
-//       res.status(500).send('Error fetching todos');
-//       return;
-//     }
-//     res.json(results);
-//   });
-// });
+// Get a single todo by ID
+app.get('/api/todo/:id', (req, res) => {
+  const id = parseInt(req.params.id);
+  const query = 'SELECT idtodos id, datetime date, description, completedflag completed FROM todos WHERE idtodos = ?';
+  connection.query(query, [id], (err, result) => {
+      if (err) {
+          console.error('Error fetching todo:', err);
+          res.status(500).send('Error fetching todo');
+          return;
+      }
+      if (!result || result.length === 0) {
+          return res.status(404).json({ message: 'Todo not found' });
+      }
+      res.json(result[0]);
+  });
+});
 
-app.post('/api/todos', (req, res) => {
+app.post('/api/todo', (req, res) => {
   const { date, description } = req.body;
   const query = 'INSERT INTO todos (date, description, completedflag) VALUES (?, ?, 0)';
   connection.query(query, [date, description], (err, results) => {
@@ -63,7 +68,7 @@ app.post('/api/todos', (req, res) => {
   });
 });
 
-app.put('/api/todos/:id', (req, res) => {
+app.put('/api/todo/:id', (req, res) => {
   const { id } = req.params;
   const { completedflag } = req.body;
   const query = 'UPDATE todos SET completedflag = ? WHERE id = ?';
@@ -77,7 +82,7 @@ app.put('/api/todos/:id', (req, res) => {
   });
 });
 
-app.delete('/api/todos/:id', (req, res) => {
+app.delete('/api/todo/:id', (req, res) => {
   const { id } = req.params;
   const query = 'DELETE FROM todos WHERE id = ?';
   connection.query(query, [id], (err, results) => {
@@ -90,6 +95,6 @@ app.delete('/api/todos/:id', (req, res) => {
   });
 });
 
-   app.listen(port, () => {
-       console.log(`Server running on port ${port}`);
-   });
+app.listen(port, () => {
+    console.log(`Server running on port ${port}`);
+});

@@ -73,4 +73,18 @@ export class AppComponent implements OnInit {
       todo.date.toISOString().split('T')[0] === date.toISOString().split('T')[0]
     );
   }
+
+  onTodoToggled(id: number): void {
+    this.todoService.updateTodoCompletion(id, 1).subscribe({
+      next: () => this.loadTodos(),
+      error: (err) => this.errorMessage.set(err.message || 'Error updating todo')
+    });
+  }
+
+  onTodoDeleted(id: number): void {
+    this.todoService.deleteTodoById(id).subscribe({
+      next: () => this.loadTodos(),
+      error: (err) => this.errorMessage.set(err.message || 'Error deleting todo')
+    });
+  }
 }
