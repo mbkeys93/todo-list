@@ -71,7 +71,7 @@ app.post('/api/todo', (req, res) => {
 app.put('/api/todo/:id', (req, res) => {
   const { id } = req.params;
   const { completedflag } = req.body;
-  const query = 'UPDATE todos SET completedflag = ? WHERE id = ?';
+  const query = 'UPDATE todos SET completedflag = ? WHERE idtodos = ?';
   connection.query(query, [completedflag, id], (err, results) => {
     if (err) {
       console.error('Error updating todo:', err);
@@ -84,7 +84,7 @@ app.put('/api/todo/:id', (req, res) => {
 
 app.delete('/api/todo/:id', (req, res) => {
   const { id } = req.params;
-  const query = 'DELETE FROM todos WHERE id = ?';
+  const query = 'DELETE FROM todos WHERE idtodos = ?';
   connection.query(query, [id], (err, results) => {
     if (err) {
       console.error('Error deleting todo:', err);
