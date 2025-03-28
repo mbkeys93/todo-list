@@ -20,14 +20,16 @@
       </button>
     </mat-menu>
   </mat-toolbar>
-  <app-add-todo-global (newDateAdded)="handleDatesFromTodoList($event)"></app-add-todo-global>
-  @for (date of todoListDates$ | async; track date) {
-    <app-todo-list 
-      [todos]="filterTodosByDate(date, (todos$ | async) ?? [])"
-      (todoToggled)="onTodoToggled($event)"
-      (todoDeleted)="onTodoDeleted($event)">
-    </app-todo-list>
-  }
+  <div class="content-container">
+    <app-add-todo-global (newDateAdded)="handleDatesFromTodoList($event)"></app-add-todo-global>
+    @for (date of todoListDates$ | async; track date) {
+      <app-todo-list 
+        [todos]="filterTodosByDate(date, (todos$ | async) ?? [])"
+        (todoToggled)="onTodoToggled($event)"
+        (todoDeleted)="onTodoDeleted($event)">
+      </app-todo-list>
+    }
+  </div>
 </div>
 
 <router-outlet />

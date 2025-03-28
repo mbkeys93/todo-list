@@ -1,38 +1,36 @@
-import { Component, output, signal } from '@angular/core';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { TodoService } from '../../services/todo.service';
-import { FormsModule } from '@angular/forms';
-import { MatInputModule } from '@angular/material/input';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { provideNativeDateAdapter } from '@angular/material/core';
+import { Component, output } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDialog } from '@angular/material/dialog';
+import { AddTodoDialogComponent } from '../add-todo-dialog/add-todo-dialog.component';
 
 @Component({
     selector: 'app-add-todo-global',
-    providers: [provideNativeDateAdapter(), TodoService],
-    imports: [MatFormFieldModule, FormsModule, MatInputModule, MatDatepickerModule],
-    templateUrl: './add-todo-global.component.html',
-    styleUrl: './add-todo-global.component.css'
+    imports: [MatButtonModule, MatIconModule],
+    template: `
+        <button mat-fab color="primary" (click)="openDialog()">
+            <mat-icon>add</mat-icon>
+        </button>
+    `,
+    styles: [`
+        button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+        }
+    `]
 })
 export class AddTodoGlobalComponent {
-  newDateAdded = output<Date>();
-  newTodoDate = signal(new Date());
-  newTodoTitle = signal('');
+    newDateAdded = output<Date>();
 
-  constructor(private todoService: TodoService) {}
+    constructor(private dialog: MatDialog) {}
 
-  addTodo() {
-    if (this.newTodoTitle().trim() === '') {
-      // Handle validation error (e.g., show a message to the user)
-      return;
+    openDialog(): void {
+        const dialogRef = this.dialog.open(AddTodoDialogComponent);
+        dialogRef.afterClosed().subscribe(result => {
+            if (result) {
+                this.newDateAdded.emit(result.date);
+            }
+        });
     }
-
-    this.todoService.getTodoListDates().subscribe(dates => { // unsubscribe?
-      if (!dates.find(date => date === this.newTodoDate())) {
-        this.newDateAdded.emit(this.newTodoDate());
-      }
-    });
-
-    this.todoService.addTodoForDate(this.newTodoDate(), this.newTodoTitle());
-    this.newTodoTitle.set(''); // Clear the input field
-  }
 }

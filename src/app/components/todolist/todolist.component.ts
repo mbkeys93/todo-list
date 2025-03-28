@@ -25,7 +25,7 @@ import { DatePipe } from '@angular/common';
 })
 export class TodoListComponent implements OnInit {
   todos = input<Todo[]>();
-  todoToggled = output<number>();
+  todoToggled = output<Todo>();
   todoDeleted = output<number>();
 
   newTodoTitle = signal('');
@@ -44,11 +44,11 @@ export class TodoListComponent implements OnInit {
     }
   }
 
-  toggleTodoCompletion(date: Date, id: number) {
-    this.todoToggled.emit(id);
+  toggleTodoCompletion(todo: Todo) {
+    this.todoToggled.emit(todo);
   }
 
-  deleteTodo(date: Date, id: number) {
+  deleteTodo(id: number) {
     this.todoDeleted.emit(id);
   }
 }

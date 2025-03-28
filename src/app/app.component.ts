@@ -74,8 +74,8 @@ export class AppComponent implements OnInit {
     );
   }
 
-  onTodoToggled(id: number): void {
-    this.todoService.updateTodoCompletion(id, 1).subscribe({
+  onTodoToggled(todo: Todo): void {
+    this.todoService.updateTodoCompletion(todo.id, +todo.completed).subscribe({
       next: () => this.loadTodos(),
       error: (err) => this.errorMessage.set(err.message || 'Error updating todo')
     });
